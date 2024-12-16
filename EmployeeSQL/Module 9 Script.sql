@@ -1,27 +1,27 @@
 CREATE TABLE titles(
-	title_id VARCHAR PRIMARY KEY,
-	title VARCHAR
+	title_id VARCHAR(255) PRIMARY KEY NOT NULL,
+	title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE employees(
-	emp_no INT PRIMARY KEY,
-	emp_title_id VARCHAR,
-	birth_date VARCHAR,
-	first_name VARCHAR,
-	last_name VARCHAR,
-	sex VARCHAR,
-	hire_date DATE,
+	emp_no INT PRIMARY KEY NOT NULL,
+	emp_title_id VARCHAR(255) NOT NULL,
+	birth_date DATE NOT NULL,
+	first_name VARCHAR(255) NOT NULL,
+	last_name VARCHAR(255) NOT NULL,
+	sex VARCHAR(255) NOT NULL,
+	hire_date DATE NOT NULL,
 	FOREIGN KEY (emp_title_id) REFERENCES titles(title_id)
 );
 
 CREATE TABLE departments(
-	dept_no VARCHAR PRIMARY KEY,
-	dept_name VARCHAR
+	dept_no VARCHAR(255) PRIMARY KEY NOT NULL,
+	dept_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE dept_manager(
-	dept_no VARCHAR,
-	emp_no INT,
+	dept_no VARCHAR(255) NOT NULL,
+	emp_no INT NOT NULL,
 	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
 	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
 	PRIMARY KEY (dept_no, emp_no)
@@ -29,8 +29,8 @@ CREATE TABLE dept_manager(
 
 
 CREATE TABLE dept_emp(
-	emp_no INT,
-	dept_no VARCHAR,
+	emp_no INT NOT NULL,
+	dept_no VARCHAR(255) NOT NULL,
 	FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
 	FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
 	PRIMARY KEY (emp_no, dept_no)
@@ -38,10 +38,11 @@ CREATE TABLE dept_emp(
 
 
 CREATE TABLE salaries(
-	emp_no INT PRIMARY KEY,
-	salary INT,
+	emp_no INT PRIMARY KEY NOT NULL,
+	salary INT NOT NULL,
 	FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
 );
+
 
 --Data Analysis
 
@@ -61,8 +62,8 @@ WHERE hire_date BETWEEN '1986-01-01' AND '1986-12-31';
 --3. List the manager of each department along with their department number, department name, employee number, last name, and first name.
 SELECT dept_manager.emp_no, dept_manager.dept_no, departments.dept_name, employees.last_name, employees.first_name
 FROM dept_manager
-JOIN employees ON dept_manager.emp_no = employees.emp_no
-JOIN departments ON dept_manager.dept_no = departments.dept_no;
+JOIN departments ON dept_manager.dept_no = departments.dept_no
+JOIN employees ON dept_manager.emp_no = employees.emp_no;
 
 
 
